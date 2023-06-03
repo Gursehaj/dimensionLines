@@ -174,13 +174,14 @@ const findNeareastEdge = () => {
         }
     });
     console.log(`Closest Edge is: ${nearestEdge}`);
-    BABYLON.MeshBuilder.CreateDashedLines("line", {points: [mouseCursor, projectedAxisPoints.get(nearestEdge)]}).color = BABYLON.Color3.Black();
+    cleanLines("lined");
+    BABYLON.MeshBuilder.CreateDashedLines("lined", {points: [mousePos, projectedAxisPoints.get(nearestEdge)]}).color = BABYLON.Color3.Black();
     mouseCursor.material.emissiveColor = getAxisColor(nearestEdge);
 };
 
-const cleanLines = () => {
-    while (scene.getNodeByName("line")){
-        scene.getNodeByName("line").dispose();
+const cleanLines = (s) => {
+    while (scene.getNodeByName(s)){
+        scene.getNodeByName(s).dispose();
     }
 };
 
@@ -195,7 +196,7 @@ createAxisLines();
 scene.onKeyboardObservable.add( keyInfo => {
     if(keyInfo.type === BABYLON.KeyboardEventTypes.KEYDOWN)
     {
-        cleanLines();
+        cleanLines("line");
         createAxisLines();
     }
 });
